@@ -90,3 +90,36 @@ def plot_regression(x_data, y_data, regressor):
     fig = go.Figure(data=[trace_data, trace_fit], layout=layout)
 
     return fig
+
+
+def plot_distr(values, distr, title=None, xaxis_title=None):
+    """
+    Plots the histogram of some data and a (hopefully fitted) probability
+    distribution.
+    """
+    trace_hist = go.Histogram(
+        x=values,
+        histnorm="probability density"
+    )
+
+    x_domain = np.linspace(values.min(), values.max(), 1000)
+
+    trace_distr = go.Scatter(
+        x=x_domain,
+        y=distr.pdf(x_domain)
+    )
+
+    layout = go.Layout(
+        title=go.layout.Title(
+            text=title,
+            x=0.5
+        ),
+        xaxis=dict(
+            title=xaxis_title
+        ),
+        yaxis=dict(
+            title="Probability density"
+        )
+    )
+
+    return go.Figure(data=[trace_hist, trace_distr], layout=layout)
